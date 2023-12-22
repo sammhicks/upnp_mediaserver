@@ -1,0 +1,41 @@
+{% match self %}
+{% when Self::DirectChildren with {hostname, port, children} %}
+<DIDL-Lite xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/"
+    xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:sec="http://www.sec.co.kr/">
+    {% for child in children %}
+    {% match child %}
+    {% when Child::Container with {id, parent_id, title} %}
+    <container id="{{id}}" parentID="{{parent_id}}" restricted="1" searchable="0">
+        <dc:title>{{title}}</dc:title>
+        <upnp:class>object.container</upnp:class>
+    </container>
+    {% when Child::Item with {id, parent_id, root_name, base64_path, artist, album, title, genre, year, track_number, mime_type} %}
+    <item id="{{id}}" parentID="{{parent_id}}" restricted="1">
+        <dc:title>{{title}}</dc:title>
+        <upnp:class>object.item.audioItem.musicTrack</upnp:class>
+        <dc:creator>{{artist}}</dc:creator>
+        <dc:date>{{year}}-01-01</dc:date>
+        <upnp:artist>{{artist}}</upnp:artist>
+        <upnp:album>{{album}}</upnp:album>
+        <upnp:genre>{{genre}}</upnp:genre>
+        <upnp:originalTrackNumber>{{track_number}}</upnp:originalTrackNumber>
+        <res protocolInfo="http-get:*:{{mime_type}}:*">http://{{hostname}}:{{port}}/media/{{root_name}}/{{base64_path}}</res>
+        <upnp:albumArtURI xmlns:dlna="urn:schemas-dlna-org:metadata-1-0/">http://{{hostname}}:{{port}}/album_art/{{root_name}}/{{base64_path}}</upnp:albumArtURI>
+    </item>
+    {% endmatch %}
+    {% endfor %}
+</DIDL-Lite>
+{% when Self::Metadata with {id, parent_id, title, child_count} %}
+<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/"
+    xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/"
+    xmlns:dlna="urn:schemas-dlna-org:metadata-1-0/">
+    <container id="{{id}}" parentID="{{parent_id}}" restricted="1" searchable="0" childCount="{{child_count}}">
+        <dc:title>{{title}}</dc:title>
+        <upnp:class>object.container.storageFolder</upnp:class>
+        <upnp:storageUsed>-1</upnp:storageUsed>
+    </container>
+</DIDL-Lite>
+{% endmatch %}

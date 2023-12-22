@@ -1,0 +1,9 @@
+NOTIFY * HTTP/1.1
+Server: MyOS/1.0 UPnP/1.1 {{env!("CARGO_PKG_NAME")}}/{{env!("CARGO_PKG_VERSION")}}
+Nt: {{advertisement.notification_type()}}
+Host: {{hostname}}:{{port}}
+Nts: {{notification_sub_type}}
+Usn: {{advertisement.service_name()}}
+Cache-control: max-age=1800
+Location: http://{{hostname}}:{{port}}/description.xml
+

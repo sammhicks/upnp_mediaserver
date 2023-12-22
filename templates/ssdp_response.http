@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Server: MyOS/1.0 UPnP/1.1 {{env!("CARGO_PKG_NAME")}}/{{env!("CARGO_PKG_VERSION")}}
+Date: {{self.date()}}
+St: {{advertisement.notification_type()}}
+Host: {{hostname}}:{{port}}
+Usn: {{advertisement.service_name()}}
+Cache-Control: max-age=1800
+Location: http://{{hostname}}:{{port}}/description.xml
+Ext:{{"\r\n\r\n"}}

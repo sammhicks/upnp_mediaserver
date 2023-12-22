@@ -1,0 +1,31 @@
+[package]
+name = "upnp_mediaserver"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+default-run = "upnp_mediaserver"
+
+[dependencies]
+anyhow = "1.0.75"
+askama = { version = "0.12.1", features = ["with-axum"] }
+askama_axum = "0.4.0"
+audiotags = "0.4.1"
+axum = { version = "0.7.2", features = ["macros"] }
+axum-extra = { version = "0.9.0", features = ["typed-header", "typed-routing"] }
+base64 = "0.21.5"
+chrono = "0.4.31"
+config-manager = "0.2.0"
+futures-util = "0.3.29"
+mime = "0.3.17"
+mime_guess = "2.0.4"
+quick-xml = { version = "0.31.0", features = ["serialize"] }
+serde = { version = "1.0.193", features = ["derive"] }
+socket2 = "0.5.5"
+strum = { version = "0.25.0", features = ["derive"] }
+tokio = { version = "1.35.1", features = ["rt", "net", "macros", "sync", "signal", "fs"] }
+tower-http = { version = "0.5.0", features = ["trace"] }
+tracing = "0.1.40"
+tracing-subscriber = "0.3.18"
+uuid = { version = "1.6.1", features = ["v4", "serde"] }
